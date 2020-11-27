@@ -13,7 +13,7 @@ class LoadWeb {
     private Thread secThread;
     private Runnable runnable;
 
-    void init() {
+    public void init() {
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -37,12 +37,10 @@ class LoadWeb {
             Element table = tables.get(0); // берем 1 таблицу (в конкретном случае она одна)
             Elements elementsTable = table.children(); // берем елементы из нужной таблицы
 
-            //TODO таблица каждой валюты (всего их 34)
             for (int i = 0; i < 34; i++) {
                 Element elementTable = elementsTable.get(i);
                 Elements elementsAud1 = elementTable.children();
 
-                //TODO забираем из каждой таблицы (каждой валюты) элементы
                 Element elementNumCode = elementsAud1.get(0); // элемент внутри каждой валюты
                 String numCode = elementNumCode.text();
                 Element elementCharCode = elementsAud1.get(1);
@@ -52,11 +50,9 @@ class LoadWeb {
                 Element elementName = elementsAud1.get(3);
                 String name = elementName.text();
                 Element elementValue = elementsAud1.get(4);
-                String value = elementValue.text();
+                String value = elementValue.text().replace(",", ".");
 
-                // TODO вызываем метод загрузки данных в БД. Передаем необходимые элементы
                 dataBase.uploadingDataToDatabase(numCode, charCode, nominal, name, value);
-
             }
         } catch (IOException e) {
             e.printStackTrace();
